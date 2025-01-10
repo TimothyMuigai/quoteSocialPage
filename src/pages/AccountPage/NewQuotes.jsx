@@ -144,7 +144,7 @@ function NewQuotes({ id, setQuoteId, refreshQuotes }) {
             id="txtCategory"
             value={category}
             placeholder="Enter category"
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => setCategory(e.target.value.toLowerCase())}
             className="input-field"
           />
         </label>
