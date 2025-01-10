@@ -1,0 +1,1014 @@
+/* Global reset and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light theme background */
+    color: #333; /* Dark text for light theme */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark theme styles */
+body.dark-theme {
+    background-color: #2c2c2c;
+    color: #f1f1f1;
+}
+
+/* Header and Navigation */
+.header {
+    background-color: #333; /* Dark background for header */
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.nav-link {
+    color: #fff; /* Light text for links */
+    text-decoration: none;
+    font-size: 1rem;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ff6347; /* Highlighted color on hover */
+}
+
+.nav-link.active {
+    font-weight: bold;
+    border-bottom: 2px solid #ff6347; /* Active link indicator */
+}
+
+/* Mobile-responsive navigation */
+@media (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-link {
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-link {
+        font-size: 0.9rem;
+    }
+}
+
+/* Main content styling */
+main {
+    padding: 20px;
+}
+
+/* Styling for active routes */
+.nav-link.active {
+    color: #ff6347;
+}
+
+/* Dark and light mode switcher (optional) */
+.theme-toggle {
+    background: #ff6347;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+    margin-left: auto;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: #ff4500;
+}
+
+/* Quote card styles */
+.quote-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quote-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.quote-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.quote-author {
+    font-size: 1rem;
+    color: #555;
+}
+
+.quote-likes,
+.quote-timestamp {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.add-to-favorite,
+.like-button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-favorite:hover,
+.like-button:hover {
+    background-color: #ff4500;
+}
+
+.sort-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.sort-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sort-button:hover {
+    background-color: #555;
+}
+
+.category-filter {
+    margin-bottom: 20px;
+}
+
+.category-select {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Layout for quotes list */
+.quotes-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .quotes-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .quotes-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Random quote card */
+.random-quote {
+    background-color: #f0f0f0; /* Light but slightly darker background */
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.random-quote .quote-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.random-quote .quote-author {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* Sorting and filtering layout */
+.filter-sort-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .filter-sort-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Sorting and filtering layout */
+.sorting-components {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ensure it fills the entire width */
+    gap: 20px; /* Space between the sorting and filtering elements */
+}
+
+.category-filter {
+    flex-grow: 1; /* Allow this to take up remaining space */
+}
+
+.sort-buttons {
+    flex-grow: 1; /* Allow this to take up remaining space */
+}
+
+/* Mobile responsiveness for sorting-components */
+@media (max-width: 768px) {
+    .sorting-components {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .category-filter,
+    .sort-buttons {
+        width: 100%; /* Ensure each element takes up full width on small screens */
+        margin-bottom: 15px; /* Space between the elements */
+    }
+}
+
+/* Data Layout Container */
+.data-layout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Dark theme for Data Layout */
+.data-layout-container.dark-theme {
+    background-color: #333;
+}
+
+/* Welcome message */
+.welcome-message {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.data-layout-container.dark-theme .welcome-message {
+    color: #f1f1f1;
+}
+
+/* Log out button */
+.logout-button {
+    background-color: #ff6347;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #ff4500;
+}
+
+/* Divider styling */
+.divider {
+    border: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+/* New Quotes section */
+.new-quote-form {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.data-layout-container.dark-theme .new-quote-form {
+    background-color: #444;
+}
+
+.new-quote-form h2 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.new-quote-form .form-group {
+    margin-bottom: 15px;
+}
+
+.new-quote-form .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.new-quote-form .form-group input,
+.new-quote-form .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.new-quote-form .form-group input:focus,
+.new-quote-form .form-group textarea:focus {
+    border-color: #ff6347;
+}
+
+.new-quote-form .form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.new-quote-form .form-group button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.new-quote-form .form-group button:hover {
+    background-color: #ff4500;
+}
+
+/* Quotes title */
+.quotes-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+}
+
+.data-layout-container.dark-theme .quotes-title {
+    color: #f1f1f1;
+}
+
+/* My Quotes section */
+.my-quotes-list {
+    margin-top: 20px;
+}
+
+.my-quotes {
+    margin-top: 30px;
+}
+
+.sorting-components {
+    margin-bottom: 20px;
+}
+
+.edit-quote-button,
+.delete-quote-button {
+    background-color: #ff6347;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+.edit-quote-button:hover,
+.delete-quote-button:hover {
+    background-color: #ff4500;
+}
+
+.my-quotes .quote-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Mobile responsiveness for DataLayout */
+@media (max-width: 768px) {
+    .data-layout-container {
+        padding: 15px;
+    }
+
+    .welcome-message {
+        font-size: 1.2rem;
+    }
+
+    .logout-button {
+        width: 100%;
+        padding: 12px 0;
+    }
+
+    .new-quote-form {
+        padding: 20px;
+    }
+
+    .new-quote-form h2 {
+        font-size: 1.2rem;
+    }
+
+    .quote-item {
+        padding: 10px;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .logout-button {
+        font-size: 1rem;
+    }
+
+    .quotes-title {
+        font-size: 1.2rem;
+    }
+
+    .new-quote-form .form-group input,
+    .new-quote-form .form-group textarea {
+        font-size: 0.9rem;
+    }
+
+    .quote-item {
+        padding: 5px;
+    }
+}
+
+/* New Quote page styling */
+.new-quote-page {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.new-quote-page h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form group styling */
+.new-quote-page .form-group {
+    margin-bottom: 20px;
+}
+
+.new-quote-page .form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.new-quote-page .form-group input,
+.new-quote-page .form-group textarea {
+    width: 100%;
+    padding: 12px; /* Increased padding for better spacing */
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.new-quote-page .form-group input:focus,
+.new-quote-page .form-group textarea:focus {
+    border-color: #ff6347;
+    outline: none; /* Removes the default blue outline */
+}
+
+/* Textarea-specific styles */
+.new-quote-page .form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Submit button styling */
+.new-quote-page .submit-button {
+    background-color: #ff6347;
+    color: white;
+    padding: 14px 20px; /* Larger padding for better click area */
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make it full width on smaller screens */
+}
+
+.new-quote-page .submit-button:hover {
+    background-color: #ff4500;
+}
+
+/* Cancel button styling */
+.new-quote-page .cancel-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 14px 20px; /* Larger padding */
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px; /* Add space above the cancel button */
+    width: 100%; /* Make it full width on smaller screens */
+}
+
+.new-quote-page .cancel-button:hover {
+    background-color: #bbb;
+}
+/* Quote posting form */
+.new-quote-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+.form-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.input-label {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #ff6347; /* Highlight input field on focus */
+    outline: none;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6347;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #ff4500;
+}
+
+.message-container {
+    text-align: center;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.message.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.message.error {
+    background-color: #dc3545;
+    color: white;
+}
+.cancel-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ccc;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.cancel-button:hover {
+    background-color: #bbb;
+}
+/* Page Not Found Container */
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Title */
+.not-found-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Message */
+.not-found-message {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* Return Home Button Container */
+.home-link {
+    text-decoration: none;
+}
+
+.return-home-button {
+    padding: 12px 30px;
+    background-color: #ff6347;
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.return-home-button:hover {
+    background-color: #ff4500;
+}
+
+.return-home-button:focus {
+    outline: none;
+}
+
+/* Responsive styling for New Quote page */
+@media (max-width: 768px) {
+    .new-quote-page {
+        padding: 20px;
+    }
+
+    .new-quote-page h1 {
+        font-size: 1.8rem;
+    }
+
+    .new-quote-page .form-group input,
+    .new-quote-page .form-group textarea {
+        font-size: 1rem;
+    }
+
+    .new-quote-page .submit-button,
+    .new-quote-page .cancel-button {
+        width: 100%;
+        padding: 12px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .new-quote-page {
+        padding: 15px;
+    }
+
+    .new-quote-page h1 {
+        font-size: 1.6rem;
+    }
+
+    .new-quote-page .form-group input,
+    .new-quote-page .form-group textarea {
+        font-size: 0.9rem;
+    }
+
+    .new-quote-page .submit-button,
+    .new-quote-page .cancel-button {
+        font-size: 1rem;
+    }
+}
+/* General Styles for Login Page */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.login-heading {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Error Message */
+.error-message {
+    color: #dc3545;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* Form Styles */
+.login-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.input-label {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #ff6347;
+    outline: none;
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6347;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #ff4500;
+}
+
+.submit-button:focus {
+    outline: none;
+}
+
+/* Signup Prompt */
+.signup-prompt {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-link {
+    text-decoration: none;
+}
+
+.signup-button {
+    padding: 8px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+    background-color: #218838;
+}
+
+.signup-button:focus {
+    outline: none;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 20px 15px;
+    }
+
+    .login-heading {
+        font-size: 2rem;
+    }
+
+    .login-form {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .input-label {
+        font-size: 1rem;
+    }
+
+    .input-field {
+        font-size: 0.95rem;
+    }
+
+    .submit-button, .signup-button {
+        font-size: 1rem;
+    }
+}
+/* General Styles for Signup Page */
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.signup-heading {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Error Message */
+.error-message {
+    color: #dc3545;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* Form Styles */
+.signup-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.input-label {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #ff6347;
+    outline: none;
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6347;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #ff4500;
+}
+
+.submit-button:focus {
+    outline: none;
+}
+
+/* Login Prompt */
+.login-prompt {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-link {
+    text-decoration: none;
+}
+
+.login-button {
+    padding: 8px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #218838;
+}
+
+.login-button:focus {
+    outline: none;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .signup-container {
+        padding: 20px 15px;
+    }
+
+    .signup-heading {
+        font-size: 2rem;
+    }
+
+    .signup-form {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .input-label {
+        font-size: 1rem;
+    }
+
+    .input-field {
+        font-size: 0.95rem;
+    }
+
+    .submit-button, .login-button {
+        font-size: 1rem;
+    }
+}
