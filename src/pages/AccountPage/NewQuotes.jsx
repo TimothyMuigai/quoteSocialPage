@@ -4,7 +4,7 @@ import { auth } from "../../context/FirebaseConfig";
 import { UseUserAuth } from "../../context/UserAuthContext";
 
 // eslint-disable-next-line react/prop-types
-function NewQuotes({ id, setQuoteId }) {
+function NewQuotes({ id, setQuoteId, refreshQuotes }) {
   const [quote, setQuote] = useState("");
   const [category, setCategory] = useState("");
   const [likeSystem, setLikeSystem] = useState(0);
@@ -78,6 +78,7 @@ function NewQuotes({ id, setQuoteId }) {
           setMessage("");
         }, 3000);
       }
+      refreshQuotes();
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }

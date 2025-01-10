@@ -5,9 +5,14 @@ import { UseUserAuth } from "../context/UserAuthContext";
 
 function DataLayout() {
   const [quoteId, setQuoteId] = useState("");
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   const getQuoteIDHandler = (id) => {
     setQuoteId(id);
+  };
+
+  const refreshQuotes = () => {
+    setRefreshFlag((prev) => !prev);
   };
 
   const { logOut } = UseUserAuth();
@@ -32,11 +37,10 @@ function DataLayout() {
       <h1 className="welcome-message">Welcome {result}</h1>
       <hr className="divider" />
       
-      <NewQuotes id={quoteId} setQuoteId={setQuoteId} className="new-quote-form" />
-      <hr className="divider" />
+      <NewQuotes id={quoteId} setQuoteId={setQuoteId} refreshQuotes={refreshQuotes} className="new-quote-form" />
+      <hr className="divider" />      
       
-      
-      <MyQuotes getQuoteID={getQuoteIDHandler} className="my-quotes-list" />
+      <MyQuotes  getQuoteID={getQuoteIDHandler} refreshFlag={refreshFlag} className="my-quotes-list" />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { auth } from "../../context/FirebaseConfig";
 import { query, where } from "firebase/firestore";
 
 // eslint-disable-next-line react/prop-types
-function MyQuotes({ getQuoteID }) {
+function MyQuotes({ getQuoteID,refreshFlag }) {
   const [error, setError] = useState("");
   const [allQuotes, setAllQuotes] = useState([]);
   const [sortByDate, setsort] = useState(true);
@@ -14,7 +14,7 @@ function MyQuotes({ getQuoteID }) {
 
   useEffect(() => {
     getAllQuotes();
-  }, [sortByDate, category, popular]);
+  }, [sortByDate, category, popular,refreshFlag]);
 
   const getAllQuotes = async () => {
     try {
@@ -74,6 +74,7 @@ function MyQuotes({ getQuoteID }) {
     } catch (err) {
       setError("Failed to fetch quotes data.", err);
     }
+    
   };
 
   const deleteHandler = async (id) => {
