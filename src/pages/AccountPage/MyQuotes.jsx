@@ -44,7 +44,11 @@ function MyQuotes({ getQuoteID }) {
             ? new Date(b.createDate) - new Date(a.createDate)
             : new Date(a.createDate) - new Date(b.createDate);
 
-          setError(sortByDate ? "Sorted by most recent quotes." : "Sorted by oldest quotes.");
+          setError(
+            sortByDate
+              ? "Sorted by most recent quotes."
+              : "Sorted by oldest quotes."
+          );
           setTimeout(() => {
             setError("");
           }, 1000);
@@ -53,7 +57,11 @@ function MyQuotes({ getQuoteID }) {
           }
         }
 
-        setError(popular ? "Sorted by most liked quotes." : "Sorted by least liked quotes.");
+        setError(
+          popular
+            ? "Sorted by most liked quotes."
+            : "Sorted by least liked quotes."
+        );
         setTimeout(() => {
           setError("");
         }, 1000);
@@ -109,10 +117,20 @@ function MyQuotes({ getQuoteID }) {
             className="category-select"
           >
             <option value="all">All</option>
-            <option value="joke">joke</option>
-            <option value="happiness">happiness</option>
-            <option value="joy">joy</option>
-            <option value="life">life</option>
+            <option value="joke">Joke</option>
+            <option value="happiness">Happiness</option>
+            <option value="joy">Joy</option>
+            <option value="life">Life</option>
+            <option value="love">Love</option>
+            <option value="success">Success</option>
+            <option value="motivation">Motivation</option>
+            <option value="friendship">Friendship</option>
+            <option value="courage">Courage</option>
+            <option value="wisdom">Wisdom</option>
+            <option value="gratitude">Gratitude</option>
+            <option value="change">Change</option>
+            <option value="hope">Hope</option>
+            <option value="strength">Strength</option>
           </select>
         </div>
       </div>
