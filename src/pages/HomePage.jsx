@@ -190,7 +190,6 @@ function HomePage() {
           {allQuotes.map((doc) => (
             <div className="quote-item" key={doc.id}>
               <hr />
-              <button className="add-to-favorite">Add to favourite</button>
               <div className="quote-details">
                 <button
                   className="like-button"
