@@ -10,6 +10,8 @@ function HomePage() {
   const [category, setCategory] = useState("all");
   const [popular, setPopular] = useState(true);
   const [enableDateSort, setEnableDateSort] = useState(true);
+  const [authorFilter, setAuthorFilter] = useState(null);
+
 
   // function to display random quotes
   function displayData(data) {
@@ -41,7 +43,7 @@ function HomePage() {
   // function to display all quotes by users
   useEffect(() => {
     getAllQuotes();
-  }, [sortByDate, category, popular]);
+  }, [sortByDate, category, popular, authorFilter]);
 
   const getAllQuotes = async () => {
     try {
@@ -49,11 +51,18 @@ function HomePage() {
       let displayQuotes = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
+        liked: false,
       }));
 
       if (category !== "all") {
         displayQuotes = displayQuotes.filter(
           (displayQuote) => displayQuote.category === category
+        );
+      }
+
+      if (authorFilter) {
+        displayQuotes = displayQuotes.filter(
+          (displayQuote) => displayQuote.userName === authorFilter
         );
       }
 
@@ -95,13 +104,44 @@ function HomePage() {
     }
   };
 
+  const searchAuthor = (author) => {
+    setAuthorFilter(author);
+  };
+  
+  const clearAuthorSearch = () => {
+    setAuthorFilter(null);
+  };
+  
+
+  const getTimeDifference = (createDate) => {
+    const now = new Date();
+    const createdAt = new Date(createDate);
+    const diffInSeconds = Math.floor((now - createdAt) / 1000);
+
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} min ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds < 604800)
+      return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    if (diffInSeconds < 2592000)
+      return `${Math.floor(diffInSeconds / 604800)} weeks ago`;
+    if (diffInSeconds < 31536000)
+      return `${Math.floor(diffInSeconds / 2592000)} months ago`;
+    return `${Math.floor(diffInSeconds / 31536000)} years ago`;
+  };
+
   const handleLikeSystem = async (id) => {
     try {
       await QuotesServices.updateLikes(id);
       setAllQuotes((prevQuotes) =>
         prevQuotes.map((quote) =>
           quote.id === id
-            ? { ...quote, likeSystem: (parseInt(quote.likeSystem) || 0) + 1 }
+            ? {
+                ...quote,
+                likeSystem: (parseInt(quote.likeSystem) || 0) + 1,
+                liked: !quote.liked,
+              }
             : quote
         )
       );
@@ -110,6 +150,7 @@ function HomePage() {
       setError("Failed to update likes. Please try again later.");
     }
   };
+  
 
   return (
     <div className="home-page">
@@ -132,10 +173,6 @@ function HomePage() {
         )}
       </div>
       <div className="all-quotes">
-        <h2 className="quotes-heading">
-          Inspiring Quotes from other contributors
-        </h2>
-
         <div className="sorting-components">
           <div className="sort-buttons">
             <button
@@ -185,24 +222,66 @@ function HomePage() {
         </div>
 
         {error && <h3 className="error-message">{error}</h3>}
-
+        {authorFilter && (
+          <button onClick={clearAuthorSearch} className="clear-search-btn">
+            Clear Search
+          </button>
+        )}
         <div className="quotes-list">
           {allQuotes.map((doc) => (
             <div className="quote-item" key={doc.id}>
-              <hr />
-              <div className="quote-details">
-                <button
-                  className="like-button"
-                  onClick={() => handleLikeSystem(doc.id)}
-                >
-                  Like
-                </button>
-                <p className="quote-text">&quot; {doc.quote} &quot;</p>
-                <h2 className="quote-author">quote by --{doc.userName}--</h2>
-                <p className="quote-likes">Likes: {doc.likeSystem}</p>
-                <p className="quote-timestamp">{doc.postTimeLine}</p>
+              <div className="card-body">
+                <div className="card-header">
+                  <h2>
+                    {doc.userName && doc.userName.length > 0
+                      ? doc.userName.charAt(0).toUpperCase()
+                      : "U"}
+                  </h2>
+                  <p className="category-text">{doc.category} </p>
+                  <p className="time">{getTimeDifference(doc.createDate)}</p>
+                </div>
+
+                <div className="quote-details">
+                  <p className="quote-text courgette-regular">
+                    &quot; {doc.quote} &quot;
+                  </p>
+                  <h4 className="quote-author" onClick={() => searchAuthor(doc.userName)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="undefined"
+                      className="bubbleIcon"
+                    >
+                      <path d="M480-840q74 0 139.5 28.5T734-734q49 49 77.5 114.5T840-480q0 74-28.5 139.5T734-226q-49 49-114.5 77.5T480-120q-41 0-79-9t-76-26l61-61q23 8 46.5 12t47.5 4q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 24 4 47.5t12 46.5l-60 60q-18-36-27-74.5t-9-79.5q0-74 28.5-139.5T226-734q49-49 114.5-77.5T480-840Zm40 520v-144L176-120l-56-56 344-344H320v-80h280v280h-80Z" />
+                    </svg>
+                    {doc.userName && doc.userName.length > 0
+                      ? doc.userName.charAt(0).toUpperCase() +
+                        doc.userName.slice(1)
+                      : "User"}
+                  </h4>
+                </div>
+
+                <div className="card-icons">
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="loveIcon"
+                      width="50"
+                      height="50"
+                      viewBox="0 0 24 24"
+                      onClick={() => handleLikeSystem(doc.id)}
+                      style={{
+                        fill: doc.liked ? "#ff1b6b" : "#fff",
+                      }}
+                    >
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    {doc.likeSystem}
+                  </p>
+                </div>
               </div>
-              <hr />
             </div>
           ))}
         </div>

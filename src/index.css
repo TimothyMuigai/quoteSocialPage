@@ -1,4 +1,18 @@
-/* Global reset and box-sizing */
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap');
+
+.courgette-regular {
+    font-family: "Courgette", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.berkshire-swash-regular {
+    font-family: "Berkshire Swash", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,20 +21,12 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Light theme background */
-    color: #333; /* Dark text for light theme */
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Dark theme styles */
-body.dark-theme {
-    background-color: #2c2c2c;
-    color: #f1f1f1;
 }
 
 /* Header and Navigation */
 .header {
-    background-color: #333; /* Dark background for header */
+    background-color: #333;
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -35,7 +41,7 @@ body.dark-theme {
 }
 
 .nav-link {
-    color: #fff; /* Light text for links */
+    color: #f7f7f7;
     text-decoration: none;
     font-size: 1rem;
     margin: 0 15px;
@@ -43,12 +49,12 @@ body.dark-theme {
 }
 
 .nav-link:hover {
-    color: #ff6347; /* Highlighted color on hover */
+    color: #ff6347;
 }
 
 .nav-link.active {
     font-weight: bold;
-    border-bottom: 2px solid #ff6347; /* Active link indicator */
+    border-bottom: 2px solid #ff6347;
 }
 
 /* Mobile-responsive navigation */
@@ -78,31 +84,14 @@ main {
 .nav-link.active {
     color: #ff6347;
 }
-
-/* Dark and light mode switcher (optional) */
-.theme-toggle {
-    background: #ff6347;
-    color: #fff;
-    border: none;
-    padding: 5px 15px;
-    cursor: pointer;
-    margin-left: auto;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.theme-toggle:hover {
-    background: #ff4500;
-}
-
 /* Quote card styles */
 .quote-item {
-    background-color: #fff;
+    background: linear-gradient(135deg, #3f3f42, #5d5d3c);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px;
+    padding: 15px; 
     margin: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
 .quote-item:hover {
@@ -110,38 +99,111 @@ main {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.quote-text {
-    font-size: 1.2rem;
+.card-body {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 15px;
+    margin-bottom: 10px;
+}
+.card-header h2 {
+    background-color: #E13700;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 1.3rem;
     font-weight: bold;
-    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
 }
 
-.quote-author {
+.card-header .category-text {
+    background-color: #f0f0f0;
+    border-radius: 25px;
+    padding: 5px 15px;
     font-size: 1rem;
     color: #555;
 }
 
-.quote-likes,
-.quote-timestamp {
-    font-size: 0.9rem;
-    color: #777;
+.quote-details .quote-text {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    font-style: italic;
+    color: #fff;
+    word-wrap: break-word;
+    font-weight: bolder;
 }
 
-.add-to-favorite,
-.like-button {
-    background-color: #ff6347;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    margin: 5px;
+.quote-details .quote-author {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #1e1714;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.quote-details .quote-author:hover {
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transform: scale(1.05);
+    color: #0D0A0B;
+    text-decoration: underline;
+}
+.quote-author .bubbleIcon {
+    transition: transform 0.3s ease;
+    margin-right: 10px;
 }
 
-.add-to-favorite:hover,
-.like-button:hover {
-    background-color: #ff4500;
+.quote-author:hover .bubbleIcon {
+    transform: rotate(90deg);
+}
+.clear-search-btn{
+    background-color: #e13800a0;
+    border: transparent;
+    outline: transparent;
+    border-radius: 20px;
+    padding: 10px;
+}
+.clear-search-btn:hover{
+    background-color: #E13700;
+    border: transparent;
+    outline: transparent;
+    border-radius: 20px;
+    padding: 10px;
+}
+.card-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+.card-icons p{
+    display: flex;
+    align-items: center;
+    column-gap: 7px;
+}
+.loveIcon, .saveIcon {
+    width: 25px;
+    height: 25px;
+    fill: #fff;
+    transition: fill 0.3s ease;
+}
+
+.loveIcon:hover {
+    fill: #ff1b6b69;
 }
 
 .sort-buttons {
@@ -196,10 +258,10 @@ main {
 
 /* Random quote card */
 .random-quote {
-    background-color: #f0f0f0; /* Light but slightly darker background */
+    background-color: #ebebeb;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(80, 79, 79, 0.1);
     margin: 20px 0;
     max-width: 600px;
     margin-left: auto;
@@ -237,16 +299,16 @@ main {
 .sorting-components {
     display: flex;
     justify-content: space-between;
-    width: 100%; /* Ensure it fills the entire width */
-    gap: 20px; /* Space between the sorting and filtering elements */
+    width: 100%;
+    gap: 20px;
 }
 
 .category-filter {
-    flex-grow: 1; /* Allow this to take up remaining space */
+    flex-grow: 1;
 }
 
 .sort-buttons {
-    flex-grow: 1; /* Allow this to take up remaining space */
+    flex-grow: 1;
 }
 
 /* Mobile responsiveness for sorting-components */
@@ -258,8 +320,8 @@ main {
 
     .category-filter,
     .sort-buttons {
-        width: 100%; /* Ensure each element takes up full width on small screens */
-        margin-bottom: 15px; /* Space between the elements */
+        width: 100%;
+        margin-bottom: 15px;
     }
 }
 
@@ -404,7 +466,6 @@ main {
 .sorting-components {
     margin-bottom: 20px;
 }
-
 .edit-quote-button,
 .delete-quote-button {
     background-color: #ff6347;
@@ -507,7 +568,7 @@ main {
 .new-quote-page .form-group input,
 .new-quote-page .form-group textarea {
     width: 100%;
-    padding: 12px; /* Increased padding for better spacing */
+    padding: 12px;
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -517,7 +578,7 @@ main {
 .new-quote-page .form-group input:focus,
 .new-quote-page .form-group textarea:focus {
     border-color: #ff6347;
-    outline: none; /* Removes the default blue outline */
+    outline: none;
 }
 
 /* Textarea-specific styles */
@@ -530,13 +591,13 @@ main {
 .new-quote-page .submit-button {
     background-color: #ff6347;
     color: white;
-    padding: 14px 20px; /* Larger padding for better click area */
+    padding: 14px 20px;
     font-size: 1.2rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%; /* Make it full width on smaller screens */
+    width: 100%;
 }
 
 .new-quote-page .submit-button:hover {
@@ -547,14 +608,14 @@ main {
 .new-quote-page .cancel-button {
     background-color: #ccc;
     color: #333;
-    padding: 14px 20px; /* Larger padding */
+    padding: 14px 20px;
     font-size: 1.2rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 15px; /* Add space above the cancel button */
-    width: 100%; /* Make it full width on smaller screens */
+    margin-top: 15px;
+    width: 100%;
 }
 
 .new-quote-page .cancel-button:hover {
@@ -594,7 +655,7 @@ main {
 }
 
 .input-field:focus {
-    border-color: #ff6347; /* Highlight input field on focus */
+    border-color: #ff6347;
     outline: none;
 }
 

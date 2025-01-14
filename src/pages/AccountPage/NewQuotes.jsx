@@ -108,7 +108,9 @@ function NewQuotes({ id, setQuoteId, refreshQuotes }) {
     setQuote("");
     setCategory("");
     setMessage("");
+    setQuoteId("");
   };
+  
 
   useEffect(() => {
     if (id !== undefined && id !== "") {
@@ -139,14 +141,28 @@ function NewQuotes({ id, setQuoteId, refreshQuotes }) {
 
         <label htmlFor="txtCategory" className="input-label">
           Enter category:
-          <input
-            type="text"
+          <select
             id="txtCategory"
             value={category}
-            placeholder="Enter category"
-            onChange={(e) => setCategory(e.target.value.toLowerCase())}
+            onChange={(e) => setCategory(e.target.value)}
             className="input-field"
-          />
+          >
+            <option value=""></option>
+            <option value="joke">Joke</option>
+            <option value="happiness">Happiness</option>
+            <option value="joy">Joy</option>
+            <option value="life">Life</option>
+            <option value="love">Love</option>
+            <option value="success">Success</option>
+            <option value="motivation">Motivation</option>
+            <option value="friendship">Friendship</option>
+            <option value="courage">Courage</option>
+            <option value="wisdom">Wisdom</option>
+            <option value="gratitude">Gratitude</option>
+            <option value="change">Change</option>
+            <option value="hope">Hope</option>
+            <option value="strength">Strength</option>
+          </select>
         </label>
 
         {!toggleOperation && (

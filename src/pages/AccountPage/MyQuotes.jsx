@@ -44,27 +44,13 @@ function MyQuotes({ getQuoteID,refreshFlag }) {
             ? new Date(b.createDate) - new Date(a.createDate)
             : new Date(a.createDate) - new Date(b.createDate);
 
-          setError(
-            sortByDate
-              ? "Sorted by most recent quotes."
-              : "Sorted by oldest quotes."
-          );
-          setTimeout(() => {
-            setError("");
-          }, 1000);
+          
           if (dateComparison !== 0) {
             return dateComparison;
           }
         }
 
-        setError(
-          popular
-            ? "Sorted by most liked quotes."
-            : "Sorted by least liked quotes."
-        );
-        setTimeout(() => {
-          setError("");
-        }, 1000);
+        
         return popular
           ? b.likeSystem - a.likeSystem
           : a.likeSystem - b.likeSystem;
@@ -85,6 +71,23 @@ function MyQuotes({ getQuoteID,refreshFlag }) {
       setError("");
     }, 3000);
   };
+  const getTimeDifference = (createDate) => {
+      const now = new Date();
+      const createdAt = new Date(createDate);
+      const diffInSeconds = Math.floor((now - createdAt) / 1000);
+
+      if (diffInSeconds < 3600)
+        return `${Math.floor(diffInSeconds / 60)} min ago`;
+      if (diffInSeconds < 86400)
+        return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+      if (diffInSeconds < 604800)
+        return `${Math.floor(diffInSeconds / 86400)} days ago`;
+      if (diffInSeconds < 2592000)
+        return `${Math.floor(diffInSeconds / 604800)} weeks ago`;
+      if (diffInSeconds < 31536000)
+        return `${Math.floor(diffInSeconds / 2592000)} months ago`;
+      return `${Math.floor(diffInSeconds / 31536000)} years ago`;
+    };
 
   return (
     <div className="my-quotes">
@@ -137,15 +140,38 @@ function MyQuotes({ getQuoteID,refreshFlag }) {
       </div>
 
       {error && <h3 className="error-message">{error}</h3>}
-      <h2 className="quotes-title">Your Posted Quotes</h2>
+      <h2 className="quotes-title">{allQuotes.length === 0?"You have No quotes":"Your Posted Quotes"}</h2>
+
       <div className="quotes-list">
         {allQuotes.map((doc) => (
+          
           <div className="quote-item" key={doc.id}>
-            <hr />
-            <p className="quote-text">&quot; {doc.quote} &quot;</p>
-            <h2 className="quote-author">--{doc.userName}--</h2>
-            <p className="quote-likes">Likes: {doc.likeSystem}</p>
-            <p className="quote-timestamp">{doc.postTimeLine}</p>
+            <div className="card-body">
+
+              <div className="card-header">
+                  <p className="category-text">{doc.category} </p>
+                  <p className="time">Created {getTimeDifference(doc.createDate)}</p>
+              </div>
+              <div className="quote-details">
+                <p className="quote-text courgette-regular">
+                  &quot; {doc.quote} &quot;
+                </p>
+              </div>
+              <div className="card-icons">
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="loveIcon"
+                      width="50"
+                      height="50"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    {doc.likeSystem}
+                  </p>
+                </div>
+            </div>
             <button
               onClick={() => getQuoteID(doc.id)}
               className="edit-quote-button"
@@ -158,7 +184,6 @@ function MyQuotes({ getQuoteID,refreshFlag }) {
             >
               Delete Quote
             </button>
-            <hr />
           </div>
         ))}
       </div>

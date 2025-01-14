@@ -12,7 +12,6 @@ import Signup from "./Authentication/Signup";
 
 // Layouts
 import NavLayout from "./Layouts/NavLayout";
-// import FavouritePage from "./pages/FavouritePage";
 
 //Error page
 import NotFound from "./ErrorPage/NotFound";
@@ -24,10 +23,8 @@ import ProtectedRoute from "./Authentication/ProtectedRoute";
 function App() {
   const route = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<NavLayout/>}>
-        <Route index element={<HomePage/>}/>
-        {/* <Route path="/favourite" element={<FavouritePage/>}/> */}
-        
+      <Route  element={<NavLayout/>}>
+        <Route path="/" element={<HomePage/>}/>
         <Route 
           path="/QuoteAccount" 
           element={
@@ -36,8 +33,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
-        
         <Route path="/login" element={<Login/>}/>
         <Route path="/sign-up" element={<Signup/>}/>
         <Route path="*" element={<NotFound/>}/>
