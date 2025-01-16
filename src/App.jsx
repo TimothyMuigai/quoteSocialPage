@@ -19,6 +19,7 @@ import NotFound from "./ErrorPage/NotFound";
 //context
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ProtectedRoute from "./Authentication/ProtectedRoute";
+import MyFavorites from "./pages/MyFavorites";
 
 function App() {
   const route = createBrowserRouter(
@@ -30,6 +31,14 @@ function App() {
           element={
             <ProtectedRoute>
               <DataLayout />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/favourite" 
+          element={
+            <ProtectedRoute>
+              <MyFavorites />
             </ProtectedRoute>
           }
         />

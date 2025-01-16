@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Randomquotes } from "../Data/randomQoutes";
 import QuotesServices from "../context/QuotesServices";
+import { getAuth } from "firebase/auth";
 
 function HomePage() {
   const [individualQuote, setIndividual] = useState("");
@@ -11,7 +12,6 @@ function HomePage() {
   const [popular, setPopular] = useState(true);
   const [enableDateSort, setEnableDateSort] = useState(true);
   const [authorFilter, setAuthorFilter] = useState(null);
-
 
   // function to display random quotes
   function displayData(data) {
@@ -40,9 +40,14 @@ function HomePage() {
     return () => clearInterval(intervalId);
   }, []);
 
+  const [authUser, setAuthUser] = useState()
   // function to display all quotes by users
   useEffect(() => {
     getAllQuotes();
+    const auth = getAuth();
+    auth.onAuthStateChanged(user => {
+      setAuthUser(user);
+    });
   }, [sortByDate, category, popular, authorFilter]);
 
   const getAllQuotes = async () => {
@@ -111,8 +116,22 @@ function HomePage() {
   const clearAuthorSearch = () => {
     setAuthorFilter(null);
   };
-  
 
+  
+  const handleAddToFavorites = async (quote) => {
+    if (!authUser) {
+      alert("You must be logged in to add quotes to favorites.");
+      return;
+    }
+    
+    try {
+      
+      await QuotesServices.addToFavorites(quote, authUser.uid);
+      alert("Quote added to favorites!");
+    } catch (error) {
+      alert("Failed to add to favorites: " + error.message);
+    }
+  };
   const getTimeDifference = (createDate) => {
     const now = new Date();
     const createdAt = new Date(createDate);
@@ -133,45 +152,49 @@ function HomePage() {
 
   const handleLikeSystem = async (id) => {
     try {
-      await QuotesServices.updateLikes(id);
       setAllQuotes((prevQuotes) =>
         prevQuotes.map((quote) =>
           quote.id === id
             ? {
                 ...quote,
-                likeSystem: (parseInt(quote.likeSystem) || 0) + 1,
+                likeSystem: quote.liked
+                  ? (parseInt(quote.likeSystem) || 0) - 1
+                  : (parseInt(quote.likeSystem) || 0) + 1,
                 liked: !quote.liked,
               }
             : quote
         )
       );
+  
+      const currentQuote = allQuotes.find((quote) => quote.id === id);
+      const toggle = !currentQuote.liked;
+      await QuotesServices.updateLikes(id, toggle);
     } catch (err) {
-      console.error("Failed to update likes:", err);
-      setError("Failed to update likes. Please try again later.");
+      setError(err.message);
     }
   };
-  
 
   return (
-    <div className="home-page">
-      <div className="random-quote">
-        {individualQuote ? (
-          <>
-            <p className="quote-text">&quot;{individualQuote.text}&quot;</p>
-            <h2 className="quote-author">
-              <em>--{individualQuote.author}--</em>
-            </h2>
-          </>
-        ) : (
-          <>
-            <p className="quote-text">
-              &quot; Getting started is easy just choose your Category and the
-              fun begins &quot;
-            </p>
-            <h2 className="quote-author">--TTM Programmer--</h2>
-          </>
-        )}
+    <div className="home-page">      
+      <div className="random-quote">           
+          {individualQuote ? (
+            <>
+              <p className="quote-text">&quot;{individualQuote.text}&quot;</p>
+              <h2 className="quote-author">
+                <em>--{individualQuote.author}--</em>
+              </h2>
+            </>
+          ) : (
+            <>
+              <p className="quote-text">
+                &quot; Getting started is easy just choose your Category and the
+                fun begins &quot;
+              </p>
+              <h2 className="quote-author">--TTM Programmer--</h2>
+            </>
+          )}        
       </div>
+
       <div className="all-quotes">
         <div className="sorting-components">
           <div className="sort-buttons">
@@ -233,9 +256,9 @@ function HomePage() {
               <div className="card-body">
                 <div className="card-header">
                   <h2>
-                    {doc.userName && doc.userName.length > 0
-                      ? doc.userName.charAt(0).toUpperCase()
-                      : "U"}
+                    {doc.userName &&
+                      doc.userName.length > 0 &&
+                      doc.userName.charAt(0).toUpperCase()}
                   </h2>
                   <p className="category-text">{doc.category} </p>
                   <p className="time">{getTimeDifference(doc.createDate)}</p>
@@ -245,7 +268,10 @@ function HomePage() {
                   <p className="quote-text courgette-regular">
                     &quot; {doc.quote} &quot;
                   </p>
-                  <h4 className="quote-author" onClick={() => searchAuthor(doc.userName)}>
+                  <h4
+                    className="quote-author"
+                    onClick={() => searchAuthor(doc.userName)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       height="24px"
@@ -256,14 +282,14 @@ function HomePage() {
                     >
                       <path d="M480-840q74 0 139.5 28.5T734-734q49 49 77.5 114.5T840-480q0 74-28.5 139.5T734-226q-49 49-114.5 77.5T480-120q-41 0-79-9t-76-26l61-61q23 8 46.5 12t47.5 4q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 24 4 47.5t12 46.5l-60 60q-18-36-27-74.5t-9-79.5q0-74 28.5-139.5T226-734q49-49 114.5-77.5T480-840Zm40 520v-144L176-120l-56-56 344-344H320v-80h280v280h-80Z" />
                     </svg>
-                    {doc.userName && doc.userName.length > 0
-                      ? doc.userName.charAt(0).toUpperCase() +
-                        doc.userName.slice(1)
-                      : "User"}
+                    {doc.userName &&
+                      doc.userName.length > 0 &&
+                      doc.userName.charAt(0).toUpperCase() +
+                        doc.userName.slice(1)}
                   </h4>
                 </div>
 
-                <div className="card-icons">
+                <div className="card-icons" style={{width: authUser && "70%"}}>
                   <p>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -280,6 +306,25 @@ function HomePage() {
                     </svg>
                     {doc.likeSystem}
                   </p>
+                  {authUser && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      className="saveIcon"
+                      onClick={() =>
+                        handleAddToFavorites({
+                          author: doc.userName,
+                          quote: doc.quote,
+                          category: doc.category,
+                          userId: doc.id,
+                        })
+                      }
+                    >
+                      <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z" />
+                    </svg>
+                  )}
                 </div>
               </div>
             </div>
